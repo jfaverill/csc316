@@ -31,5 +31,6 @@ public class SwapDemo {
 		System.out.println("Swapping abcdefghij\tExpected: badcfehgji\tActual: " + Swap("abcdefghij"));
 		System.out.println(Swap("Swapthis"));
 		System.out.println(Swap("Swapethis"));
+		
 	}
 }
