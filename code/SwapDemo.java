@@ -1,20 +1,22 @@
 public class SwapDemo {
 	public static String Swap(String toSwap) {
-		int strLength = toSwap.length();
-		if (strLength <= 2) {
-			if (strLength == 1) {
-				return "" + toSwap.charAt(0);
-			} else {
-				return "" + toSwap.charAt(1) + toSwap.charAt(0);
-			}
+		// If toSwap is even-length string, then reduce length by 1
+		// otherwise reduce length by 2
+		String lastCharOddLength = "";
+		int end = toSwap.length() - 1;
+		if (toSwap.length() % 2 == 1) {
+			end = toSwap.length() - 2;
+			lastCharOddLength = "" + toSwap.charAt(toSwap.length() - 1);
+		}
+
+		if (end - 1 < 0) {
+			return "";
 		} else {
-			int middle = toSwap.length()/2;
-			if (toSwap.length() % 2 == 1) {
-				middle = (toSwap.length() + 1)/2;
-			}
-			String first = Swap(toSwap.substring(0, middle));
-			String second = Swap(toSwap.substring(middle));
-			return first + second;
+			// String swapped = "" + toSwap.charAt(end - 1) + toSwap.charAt(end);
+			String swapped = Swap(toSwap.substring(0, end)) + "" + toSwap.charAt(end) + toSwap.charAt(end - 1); 
+			//return swapped + lastCharOddLength;
+			// System.out.print("\t" + lastCharOddLength);
+			return swapped;
 		}
 	}
 	
