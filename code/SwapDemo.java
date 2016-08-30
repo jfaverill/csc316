@@ -1,22 +1,13 @@
 public class SwapDemo {
 	public static String Swap(String toSwap) {
-		// If toSwap is even-length string, then reduce length by 1
-		// otherwise reduce length by 2
-		String lastCharOddLength = "";
-		int end = toSwap.length() - 1;
-		if (toSwap.length() % 2 == 1) {
-			end = toSwap.length() - 2;
-			lastCharOddLength = "" + toSwap.charAt(toSwap.length() - 1);
-		}
-
-		if (end - 1 < 0) {
-			return "";
+		if (toSwap.length() / 2 >= 2) {
+			return "" + toSwap.charAt(1) + toSwap.charAt(0) + Swap(toSwap.substring(2));
+		} else if (((float) toSwap.length()) / 2 == 1.5) {
+			return "" + toSwap.charAt(1) + toSwap.charAt(0) + toSwap.charAt(2);
+		} else if (((float) toSwap.length()) / 2 == 1) {
+			return "" + toSwap.charAt(1) + toSwap.charAt(0);
 		} else {
-			// String swapped = "" + toSwap.charAt(end - 1) + toSwap.charAt(end);
-			String swapped = Swap(toSwap.substring(0, end)) + "" + toSwap.charAt(end) + toSwap.charAt(end - 1); 
-			//return swapped + lastCharOddLength;
-			// System.out.print("\t" + lastCharOddLength);
-			return swapped;
+			return "" + toSwap.charAt(0);
 		}
 	}
 	
@@ -31,7 +22,12 @@ public class SwapDemo {
 		System.out.println("Swapping abcdefgh\tExpected: badcfehg\tActual: " + Swap("abcdefgh"));
 		System.out.println("Swapping abcdefghi\tExpected: badcfehgi\tActual: " + Swap("abcdefghi"));
 		System.out.println("Swapping abcdefghij\tExpected: badcfehgji\tActual: " + Swap("abcdefghij"));
+		System.out.println("Swapping abcdefghijk\tExpected: badcfehgjik\tActual: " + Swap("abcdefghijk"));
+		System.out.println("Swapping abcdefghijkl\tExpected: badcfehgjilk\tActual: " + Swap("abcdefghijkl"));
 		System.out.println(Swap("Swapthis"));
 		System.out.println(Swap("Swapethis"));
+		System.out.println(Swap("Swapaeiou"));
+		System.out.println(Swap("Iwantthisentirestringtobereversed.Canitbedone??"));
+		System.out.println(Swap("Iwantthisentirestringtobereversed.Canitbedone?-?"));
 	}
 }
