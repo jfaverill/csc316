@@ -14,6 +14,9 @@ public class proj1 {
 		while (input.hasNextLine()) {
 			System.out.println(input.next());
 		}
+
+		input.close();
+		
 		System.out.println("Hello World!");
 		// LinkList.printMessage();
 		LinkList l = new LinkList();
