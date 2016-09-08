@@ -46,14 +46,24 @@ public class proj1 {
 			return p.getElement();
 		} 
 
+		public int positionInList(E element) {
+			int positionToReturn = -1;
+			Node<E> p = head;
+			int k = 0;
+			while (p != null && !(p.getElement().equals(element))) {
+				p = p.getNext();
+				k++;
+			}
+			if (p != null && p.getElement().equals(element)) {
+				positionToReturn = k;
+			}
+			return positionToReturn;
+		}
+
 		public void addFirst(E toAdd) {
 			head = new Node<E>(toAdd, head);
 			size++;
 		}
-
-		// public void printMessage() {
-		// 	System.out.println("In the list");
-		// }
 	}
 
 	public static void main(String[] args) {
@@ -62,19 +72,20 @@ public class proj1 {
 
 		System.out.println(list.size());
 		while (input.hasNextLine()) {
-			// System.out.println(input.next());
 			list.addFirst(input.next());
 		}
 
-		System.out.println(list.lookUp(16));
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.lookUp(i));
+		}
+
+		System.out.println(list.positionInList("cat"));
+		System.out.println(list.positionInList("needed"));
+		System.out.println(list.positionInList("lazy"));
+		System.out.println(list.positionInList("brown"));
 
 		System.out.println(list.size());
 		input.close();
-
-		// System.out.println("Hello World!");
-		// // LinkList.printMessage();
-		// LinkedList l = new LinkedList();
-		// l.printMessage();
 	}
 }
 
