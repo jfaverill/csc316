@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.IOException;
 
 public class proj1 {
 
@@ -121,57 +122,51 @@ public class proj1 {
 	}
 
 	public static void main(String[] args) {
+		int firstChar = -1;
+		boolean needsUncompression = false;
+
+		try {
+			firstChar = System.in.read();
+		} catch (IOException e) {
+			System.out.println("There was an exception reading the first character; " + e.getMessage());
+		}
+		
+		if (firstChar == 48) {
+			needsUncompression = true;
+		} 
+
 		Scanner input = new Scanner(System.in);
 		LinkedList<String> list = new LinkedList<String>();
+		int uncompressedCharacters = 0;
+		int compressedCharacters = 0;
 
-		System.out.println(list.size());
 		while (input.hasNextLine()) {
-			list.addFirst(input.next());
+			String inputLine = input.nextLine();
+
+			if (needsUncompression) {
+				// code to uncompress
+				System.out.println("Here is where we uncompress");
+			} else {
+				// code to compress
+				String word = null;
+				for (int i = 0; i < inputLine.length(); i++) {
+					uncompressedCharacters++;
+					char characterToInspect = inputLine.charAt(i);
+					/*
+					while ((characterToInspect >= 'A' && characterToInspect <= 'Z') ||
+						(characterToInspect >= 'a' && characterToInspect <= 'z')) {
+						word += characterToInspect;
+					} 
+					if (word != null) {
+						System.out.print(word + " ");
+						word = null;
+					}
+					*/
+				}
+			}
+			// list.addFirst(input.next());
 		}
 
-		for (int i = 0; i < list.size(); i++) {
-			System.out.print(list.lookUp(i) + " ");
-		}
-
-		System.out.println();
-
-		System.out.println(list.positionInList("cat"));
-		System.out.println(list.positionInList("needed"));
-		System.out.println(list.positionInList("lazy"));
-		System.out.println(list.positionInList("brown"));
-
-		System.out.println(list.size());
-
-		int positionToRemove = list.positionInList("fox");
-		System.out.println(positionToRemove);
-		String removed = list.removeAtPosition(positionToRemove);
-		System.out.println(removed);
-		removed = list.removeAtPosition(list.size() - 1);
-		System.out.println(removed);
-		removed = list.removeAtPosition(list.size() - 1);
-		System.out.println(removed);
-		removed = list.removeAtPosition(0);
-		System.out.println(removed);
-		positionToRemove = list.positionInList("fox");
-		System.out.println(positionToRemove);
-		removed = list.removeAtPosition(positionToRemove);
-		System.out.println(removed);
-		positionToRemove = list.positionInList("dog.");
-		System.out.println(positionToRemove);
-		removed = list.removeAtPosition(positionToRemove);
-		System.out.println(removed);
-		positionToRemove = list.positionInList("lazy");
-		System.out.println(positionToRemove);
-		removed = list.removeAtPosition(positionToRemove);
-		System.out.println(removed);
-
-		for (int i = 0; i < list.size(); i++) {
-			System.out.print(list.lookUp(i) + " ");
-		}
-
-		System.out.println();
-
-		System.out.println(list.size());
 		input.close();
 	}
 }
