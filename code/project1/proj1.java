@@ -131,7 +131,7 @@ public class proj1 {
 			System.out.println("There was an exception reading the first character; " + e.getMessage());
 		}
 		
-		if (firstChar == 48) {
+		if (firstChar == '0') { //48) {
 			needsUncompression = true;
 		} 
 
@@ -139,30 +139,35 @@ public class proj1 {
 		LinkedList<String> list = new LinkedList<String>();
 		int uncompressedCharacters = 0;
 		int compressedCharacters = 0;
+		int lineNumInFile = 0;
 
 		while (input.hasNextLine()) {
-			String inputLine = input.nextLine();
+			lineNumInFile++;
+			String inputLine = "";
+			if (lineNumInFile == 1) {
+				// inputLine = String.valueOf(Character.toChars(firstChar)) + input.nextLine();
+				inputLine = ((char) firstChar) + input.nextLine();
+			} else {
+				inputLine = input.nextLine();
+			}
 
 			if (needsUncompression) {
 				// code to uncompress
 				System.out.println("Here is where we uncompress");
 			} else {
-				// code to compress
-				String word = null;
-				for (int i = 0; i < inputLine.length(); i++) {
-					uncompressedCharacters++;
-					char characterToInspect = inputLine.charAt(i);
-					/*
-					while ((characterToInspect >= 'A' && characterToInspect <= 'Z') ||
-						(characterToInspect >= 'a' && characterToInspect <= 'z')) {
-						word += characterToInspect;
-					} 
-					if (word != null) {
-						System.out.print(word + " ");
-						word = null;
-					}
-					*/
+				if (lineNumInFile == 1) {
+					System.out.print("0_");
 				}
+				
+				// code to compress
+				Scanner inputLineScanner = new Scanner(inputLine).useDelimiter("[^a-zA-Z]");
+				String words = "";
+				
+				while (inputLineScanner.hasNext()) {
+					words += inputLineScanner.next() + " ";
+				}
+				System.out.print(words.trim());
+				inputLineScanner.close();
 			}
 			// list.addFirst(input.next());
 		}
