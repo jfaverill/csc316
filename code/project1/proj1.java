@@ -157,38 +157,30 @@ public class proj1 {
 			} else {
 				// code to compress
 				if (lineNumInFile == 1) {
-					System.out.print("0_");
+					System.out.print("0 ");
 				}
 				
-				/*
-				Scanner inputLineScanner = new Scanner(inputLine).useDelimiter("[^a-zA-Z]");
-				String words = "";
-				
-				while (inputLineScanner.hasNext()) {
-					words += inputLineScanner.next() + " ";
-				}
-				System.out.print(words.trim());
-				inputLineScanner.close();
-				*/
 				String word = "";
 				for (int i = 0; i < inputLine.length(); i++) {
 					if ((inputLine.charAt(i) >= 'A' && inputLine.charAt(i) <= 'Z') ||
-						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z')) {
+						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z'))  {
 						word += inputLine.charAt(i);
-					}
-
-					if (!((inputLine.charAt(i) >= 'A' && inputLine.charAt(i) <= 'Z') ||
-						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z'))) {
-						System.out.print(word);
+					} else {
+						if (list.positionInList(word) == -1) {
+							System.out.print(word);
+						} else {
+							System.out.print(list.positionInList(word) + 1);
+							list.removeAtPosition(list.positionInList(word));
+						}
+						if (word != "") {
+							list.addFirst(word);
+						}
 						word = "";
 						System.out.print(inputLine.charAt(i));
 					}
 				}
-				// System.out.println(word);
 			}
-			// list.addFirst(input.next());
 		}
-
 		input.close();
 	}
 }
