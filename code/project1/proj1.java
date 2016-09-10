@@ -146,20 +146,21 @@ public class proj1 {
 			String inputLine = "";
 			if (lineNumInFile == 1) {
 				// inputLine = String.valueOf(Character.toChars(firstChar)) + input.nextLine();
-				inputLine = ((char) firstChar) + input.nextLine();
+				inputLine = ((char) firstChar) + input.nextLine() + "\n";
 			} else {
-				inputLine = input.nextLine();
+				inputLine = input.nextLine() + "\n";
 			}
 
 			if (needsUncompression) {
 				// code to uncompress
 				System.out.println("Here is where we uncompress");
 			} else {
+				// code to compress
 				if (lineNumInFile == 1) {
 					System.out.print("0_");
 				}
 				
-				// code to compress
+				/*
 				Scanner inputLineScanner = new Scanner(inputLine).useDelimiter("[^a-zA-Z]");
 				String words = "";
 				
@@ -168,6 +169,22 @@ public class proj1 {
 				}
 				System.out.print(words.trim());
 				inputLineScanner.close();
+				*/
+				String word = "";
+				for (int i = 0; i < inputLine.length(); i++) {
+					if ((inputLine.charAt(i) >= 'A' && inputLine.charAt(i) <= 'Z') ||
+						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z')) {
+						word += inputLine.charAt(i);
+					}
+
+					if (!((inputLine.charAt(i) >= 'A' && inputLine.charAt(i) <= 'Z') ||
+						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z'))) {
+						System.out.print(word);
+						word = "";
+						System.out.print(inputLine.charAt(i));
+					}
+				}
+				// System.out.println(word);
 			}
 			// list.addFirst(input.next());
 		}
