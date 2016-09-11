@@ -121,16 +121,29 @@ public class proj1 {
 		}
 	}
 
+	public static boolean charIsLetter(char currentChar) {
+		return (currentChar >= 'A' && currentChar <= 'Z') ||
+			(currentChar >= 'a' && currentChar <= 'z');
+	}
+
+	public static boolean charIsDigit(char currentChar) {
+		return currentChar >= '0' && currentChar <= '9';
+	}
+
 	public static void main(String[] args) {
-		int firstChar = -1;
+		int firstChar = -1; 
 		boolean needsUncompression = false;
 
+		// read in first character of file
+		// if error, throw exception
 		try {
 			firstChar = System.in.read();
 		} catch (IOException e) {
 			System.out.println("There was an exception reading the first character; " + e.getMessage());
 		}
 		
+		// if first character in file is "0", then performing uncompression
+		// otherwise compressing file
 		if (firstChar == '0') { //48) {
 			needsUncompression = true;
 		} 
@@ -141,19 +154,72 @@ public class proj1 {
 		int compressedCharacters = 0;
 		int lineNumInFile = 0;
 
+		// go through each line in the file
 		while (input.hasNextLine()) {
+			// increment the line number for each new line fetched
 			lineNumInFile++;
 			String inputLine = "";
+			// if on the first line, then add back the first character
+			// that was initally read in and then read the rest of the line,
+			// otherwise just read in the line as is
+			// in both cases, tack on a newline character to the end
 			if (lineNumInFile == 1) {
-				// inputLine = String.valueOf(Character.toChars(firstChar)) + input.nextLine();
 				inputLine = ((char) firstChar) + input.nextLine() + "\n";
 			} else {
 				inputLine = input.nextLine() + "\n";
 			}
 
+			// if uncompression...
 			if (needsUncompression) {
 				// code to uncompress
-				System.out.println("Here is where we uncompress");
+				// System.out.println("Here is where we uncompress");
+				if (inputLine.length() >= 15 && inputLine.substring(0, 15) == "0 Uncompressed:") {
+					break;
+				} 
+
+				if (lineNumInFile == 1) {
+					inputLine = inputLine.substring(2);
+				}
+
+				String word = "";
+				String wordPosition = "";
+
+				for (int i = 0; i < inputLine.length(); i++) {
+					/*
+					if ((inputLine.charAt(i) >= 'A' && inputLine.charAt(i) <= 'Z') ||
+						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z'))  {
+					*/
+					if (charIsLetter(inputLine.charAt(i))) {
+						word += inputLine.charAt(i);
+					}
+
+					// if (inputLine.charAt(i) >= '0' && inputLine.charAt(i) <= '9') {
+					if (charIsDigit(inputLine.charAt(i))) {
+						wordPosition += inputLine.charAt(i);
+					}
+
+					if (!(charIsLetter(inputLine.charAt(i)) || charIsDigit(inputLine.charAt(i)))) {
+						if (word != "") {
+							System.out.print(word);
+							list.addFirst(word);
+							word = "";
+						}
+						
+						if (wordPosition != "") {
+							int wordPositionNumeric = Integer.parseInt(wordPosition);
+							wordPositionNumeric--;
+							word = list.lookUp(wordPositionNumeric);
+							System.out.print(word);
+							list.removeAtPosition(list.positionInList(word));
+							list.addFirst(word);
+							word = "";
+							wordPosition = "";
+						}
+						
+						System.out.print(inputLine.charAt(i));
+					}
+				}
+			// if compression...
 			} else {
 				// code to compress
 				if (lineNumInFile == 1) {
@@ -162,8 +228,11 @@ public class proj1 {
 				
 				String word = "";
 				for (int i = 0; i < inputLine.length(); i++) {
+					/*
 					if ((inputLine.charAt(i) >= 'A' && inputLine.charAt(i) <= 'Z') ||
 						(inputLine.charAt(i) >= 'a' && inputLine.charAt(i) <= 'z'))  {
+					*/
+					if (charIsLetter(inputLine.charAt(i))) {
 						word += inputLine.charAt(i);
 					} else {
 						if (list.positionInList(word) == -1) {
@@ -179,7 +248,7 @@ public class proj1 {
 						System.out.print(inputLine.charAt(i));
 					}
 				}
-			}
+			} // end if uncompression / else...
 		}
 		input.close();
 	}
