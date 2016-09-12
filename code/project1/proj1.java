@@ -151,14 +151,16 @@ public class proj1 {
 		Scanner input = new Scanner(System.in);
 		LinkedList<String> list = new LinkedList<String>();
 		int uncompressedCharacters = 0;
+		String uncompressedString = "";
 		int compressedCharacters = 0;
+		String compressedString = "";
+		String inputLine = "";
 		int lineNumInFile = 0;
 
 		// go through each line in the file
 		while (input.hasNextLine()) {
 			// increment the line number for each new line fetched
 			lineNumInFile++;
-			String inputLine = "";
 			// if on the first line, then add back the first character
 			// that was initally read in and then read the rest of the line,
 			// otherwise just read in the line as is
@@ -173,7 +175,7 @@ public class proj1 {
 			if (needsUncompression) {
 				// code to uncompress
 				// System.out.println("Here is where we uncompress");
-				if (inputLine.length() >= 15 && inputLine.substring(0, 15) == "0 Uncompressed:") {
+				if (inputLine.length() >= 15 && inputLine.substring(0, 15).equals("0 Uncompressed:")) {
 					break;
 				} 
 
@@ -226,6 +228,7 @@ public class proj1 {
 					System.out.print("0 ");
 				}
 				
+				uncompressedCharacters += inputLine.replace("\n","").length();
 				String word = "";
 				for (int i = 0; i < inputLine.length(); i++) {
 					/*
@@ -248,7 +251,10 @@ public class proj1 {
 						System.out.print(inputLine.charAt(i));
 					}
 				}
-			} // end if uncompression / else...
+			} // end if uncompression / else...	
+		}
+		if (!needsUncompression) {
+			System.out.print("0 Uncompressed: " + uncompressedCharacters + " bytes;  Compressed: bytes");
 		}
 		input.close();
 	}
