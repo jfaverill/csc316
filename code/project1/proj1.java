@@ -1,6 +1,12 @@
 import java.util.Scanner;
 import java.io.IOException;
 
+/********************************************
+ * Program for Project 1 CSC 316 Fall 2016
+ * Move-to-Front Lists and Data Compression
+ * Class: proj1
+ * Author: John Averill
+********************************************/
 public class proj1 {
 
 	private static class LinkedList<E> {
@@ -151,7 +157,6 @@ public class proj1 {
 		Scanner input = new Scanner(System.in);
 		LinkedList<String> list = new LinkedList<String>();
 		int uncompressedCharacters = 0;
-		String uncompressedString = "";
 		int compressedCharacters = 0;
 		String compressedString = "";
 		String inputLine = "";
@@ -240,8 +245,10 @@ public class proj1 {
 					} else {
 						if (list.positionInList(word) == -1) {
 							System.out.print(word);
+							compressedString += word;
 						} else {
 							System.out.print(list.positionInList(word) + 1);
+							compressedString += (list.positionInList(word) + 1);
 							list.removeAtPosition(list.positionInList(word));
 						}
 						if (word != "") {
@@ -249,12 +256,15 @@ public class proj1 {
 						}
 						word = "";
 						System.out.print(inputLine.charAt(i));
+						compressedString += inputLine.charAt(i);
 					}
 				}
 			} // end if uncompression / else...	
 		}
 		if (!needsUncompression) {
-			System.out.print("0 Uncompressed: " + uncompressedCharacters + " bytes;  Compressed: bytes");
+			compressedCharacters = compressedString.replace("\n","").length();
+			System.out.print("0 Uncompressed: " + uncompressedCharacters + 
+				" bytes;  Compressed: " + compressedCharacters + " bytes");
 		}
 		input.close();
 	}
