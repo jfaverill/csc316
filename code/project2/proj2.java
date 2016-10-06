@@ -14,7 +14,7 @@ public class proj2 {
 		public char data;
 		// Node variable for the parent node
 		public Node parent = null;
-		// Collection of Nodes for any children of the node
+		// Collection of Nodes for any children of a node
 		public List<Node> children = null;
 		// binary variable to mark the Node in determining relationships 
 		public int mark = 0;
@@ -36,16 +36,31 @@ public class proj2 {
 	// buildTree function to recursively build tree using
 	// preorder and postorder traversals
 	public static Node buildTree(int size, int prestart, int poststart) {
-		// base case
+		// initialize root node, this will be returned once set
+		Node root = null;
+		// BASE CASE
+		// return the node at position 1 if the size is 1
 		if (size == 1) {
-			Node leaf = new Node(pretrav[0]);
-			return leaf;
+			root = new Node(pretrav[0]);
+		} else {
+			// create a new node at the prestart position
+			root = new Node(pretrav[prestart]);
+			// do while prestart position is less than the pretrav array length
+			// DON'T THINK I NEED while (prestart < pretrav.length) {
+				// create a new Node at the preorder traversal start position
+				// root = new Node(pretrav[prestart]);
+			//}
 		}
-		return null;
+		// return the root node
+		return root;
 	}
 
 	// main program
 	public static void main(String[] args) throws FileNotFoundException {
+		// ArrayList of char arrays to hold queries
+		List<char[]> queries = new ArrayList<char[]>();
+		// Array to store each query
+		char[] query = null;
 
 		// Create console Scanner to read input and output file names
 		Scanner console = new Scanner(System.in);
@@ -74,7 +89,7 @@ public class proj2 {
 			readLine = readLine.replace(",", "").replace(".", "").replace(" ", "");
 			// Only do if input line has length of at least 1 char
 			if (readLine.length() >= 1) {
-				// Generate pretrav array
+				// Populate pretrav array
 				if (readLine.substring(0,1).equals("<")) {
 			 		pretrav = readLine.substring(1).toCharArray();
 					// System.out.println(pretrav.length);
@@ -90,7 +105,19 @@ public class proj2 {
 						System.out.println(posttrav[i]);
 					}
 					System.out.println();
+				} else if (readLine.substring(0,1).equals("?")) {
+					query = new char[2];
+					query = readLine.substring(1).toCharArray();
+					queries.add(query);
 				}
+			}
+		}
+
+		// Iterate through each query in the queries collection
+		for (int i = 0; i < queries.size(); i++) {
+			query = queries.get(i);
+			for (int j = 0; j < query.length; j++) {
+				System.out.println(query[j]);
 			}
 		}
 
