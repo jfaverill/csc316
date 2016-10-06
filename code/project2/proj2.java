@@ -113,6 +113,17 @@ public class proj2 {
 			}
 		}
 
+		// End fetching in lines of the file. Ready to build tree
+
+		// Get the initial size of the tree and set the initial 
+		// prestart and poststart values
+		int treeSize = pretrav.length;
+		int prestart = 0;
+		int poststart = 0;
+
+		// Call buildTree and get the root of the entire tree
+		// Node treeRoot = buildTree(treeSize, prestart, poststart);
+
 		// Iterate through each query in the queries collection
 		for (int i = 0; i < queries.size(); i++) {
 			query = queries.get(i);
