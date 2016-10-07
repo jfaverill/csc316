@@ -33,6 +33,16 @@ public class proj2 {
 	// global array of characters for posttraversal order
 	public static char[] posttrav = new char[256];
 
+	// Method to check to see whether or not array element exists
+	public static boolean elementExists(char[] arr, int index) {
+		try {
+			char c = arr[index];
+			return true;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return false;
+		}
+	}
+
 	// buildTree function to recursively build tree using
 	// preorder and postorder traversals
 	public static Node buildTree(int size, int prestart, int poststart) {
@@ -45,14 +55,65 @@ public class proj2 {
 		} else {
 			// create a new node at the prestart position
 			root = new Node(pretrav[prestart]);
+			// advance prestart by 1
+			++prestart;
+			
+			while (elementExists(pretrav, prestart)) {
+				size = 0;
+				char nextChildChar = pretrav[prestart];
+				System.out.print(nextChildChar);
+				int scanPostTrav = poststart;
+				
+				while (elementExists(posttrav, scanPostTrav) && nextChildChar != posttrav[scanPostTrav]) {
+					++size;
+					++scanPostTrav;
+				}
+				
+				++size;
+				prestart += size;
+				poststart += size;
+				System.out.print(size);
+				System.out.print(prestart);
+				System.out.print(poststart);
+			}
+			System.out.println();
+			/**************************
+			move pretrav up 1
+			scan posttrav until i find corresponding value (get that position + 1)
+			that gives me size of next chunk to process
+			create the subtree for that child using size, pretrav and posttrav
+			move pretrav and postrav up by size
+			*determine where the subtree starts, and how many nodes the subtree has
+			*27:25 has skip information
+			****************************/
+			// reset size to 0
+			/*
+			size = 0;
+			// check next position after prestart to get position of leftmost child
+			// and assign to leftChildPosition
+			int leftChildPosition = prestart + 1;
+			// initialize number of children for the leftmost child to 0
+			int leftChildNumChildren = 0;
+			// get leftmost child character of root from pretrav array at position leftChildPosition
+			char leftChild = pretrav[leftChildPosition];
+			// use scanPostTrav to find the equivalent character of leftChild in the posttrav array
+			int scanPostTrav = poststart;
+			while (leftChild != posttrav[scanPostTrav]) {
+				++leftChildNumChildren;
+				++scanPostTrav;
+			}
+			// now that we have the number of children of the leftmost child, we need
+			// to add 1 to the number of its children to get the size of the tree to create 
+			size = leftChildNumChildren + 1;
 			// do while prestart position is less than the pretrav array length
 			// DON'T THINK I NEED while (prestart < pretrav.length) {
 				// create a new Node at the preorder traversal start position
 				// root = new Node(pretrav[prestart]);
 			//}
+			*/
 		}
 		// return the root node
-		return root;
+		return null;
 	}
 
 	// main program
@@ -132,6 +193,7 @@ public class proj2 {
 			}
 		}
 
+		Node test = buildTree(treeSize, prestart, poststart);
 		// Close input Scanner
 		input.close();
 		// Close output PrintStream
