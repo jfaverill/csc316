@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 public class proj2 {
 
@@ -28,6 +29,28 @@ public class proj2 {
 		}
 	}
 
+	private static class Queue {
+		private LinkedList<Node> q;
+
+		public Queue() {
+			q = new LinkedList<Node>();
+		}
+
+		public void enqueue(Node n) {
+			q.add(n);
+		}
+
+		public Node dequeue() {
+			Node n = q.get(0);
+			q.remove(0);
+			return n;
+		}
+
+		public boolean isEmpty() {
+			return q.size() == 0;
+		}
+	}
+
 	// global array of characters for pretraversal order
 	public static char[] pretrav = new char[256];
 	// global array of characters for posttraversal order
@@ -43,6 +66,19 @@ public class proj2 {
 		}
 	}
 
+	public static void levelOrderTraversal(Node root) {
+		Queue queue = new Queue();
+		queue.enqueue(root);
+		while (!queue.isEmpty()) {
+			Node q = queue.dequeue();
+			System.out.print(q.data);
+			for (int i = 0; i < q.children.size(); i++) {
+				Node r = q.children.get(i);
+				queue.enqueue(r);
+			}
+		}
+	}
+
 	// buildTree function to recursively build tree using
 	// preorder and postorder traversals
 	public static Node buildTree(int size, int prestart, int poststart) {
@@ -51,7 +87,7 @@ public class proj2 {
 		// BASE CASE
 		// return the node at position 1 if the size is 1
 		if (size == 1) {
-			root = new Node(pretrav[0]);
+			root = new Node(pretrav[prestart]);
 		} else {
 			// create a new node at the prestart position
 			root = new Node(pretrav[prestart]);
@@ -61,7 +97,7 @@ public class proj2 {
 			while (elementExists(pretrav, prestart)) {
 				size = 0;
 				char nextChildChar = pretrav[prestart];
-				System.out.print(nextChildChar);
+				// System.out.print(nextChildChar);
 				int scanPostTrav = poststart;
 				
 				while (elementExists(posttrav, scanPostTrav) && nextChildChar != posttrav[scanPostTrav]) {
@@ -70,13 +106,25 @@ public class proj2 {
 				}
 				
 				++size;
+				Node nextChild = buildTree(size, prestart, poststart);
+				root.children.add(nextChild);
 				prestart += size;
 				poststart += size;
+
+				/*
 				System.out.print(size);
 				System.out.print(prestart);
 				System.out.print(poststart);
+				*/
 			}
-			System.out.println();
+			// System.out.println(root.children.size());
+			
+			for (int i = 0; i < root.children.size(); i++) {
+				Node child = root.children.get(i);
+				child.parent = root;
+			}
+
+			// System.out.println();
 			/**************************
 			move pretrav up 1
 			scan posttrav until i find corresponding value (get that position + 1)
@@ -113,7 +161,7 @@ public class proj2 {
 			*/
 		}
 		// return the root node
-		return null;
+		return root;
 	}
 
 	// main program
@@ -192,8 +240,10 @@ public class proj2 {
 				System.out.println(query[j]);
 			}
 		}
+		System.out.println();
 
 		Node test = buildTree(treeSize, prestart, poststart);
+		levelOrderTraversal(test);
 		// Close input Scanner
 		input.close();
 		// Close output PrintStream
